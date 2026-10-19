@@ -1,0 +1,449 @@
+
+<header class="navbar">
+  <a class="brand" href="#" aria-label="Kéni, accueil">
+    <span class="brand-icon">K</span>
+    <span>Kéni<span class="brand-dot">.</span></span>
+  </a>
+
+
+  
+  <nav class="nav-links">
+    <a href="#home">Accueil</a>
+    <a href="#services">Nos services</a>
+    <a href="#results">Kinésithérapeutes</a>
+    <a href="#how-it-works">Comment ça marche</a>
+  </nav>
+
+  <div class="nav-actions">
+    <button class="btn btn-outline nav-login"
+      (click)="selectTab('professionals')">
+      Espace professionnel
+    </button>
+    <button class="btn btn-primary"
+      (click)="selectTab('patients')">
+      Trouver un kiné
+    </button>
+  </div>
+</header>
+
+<main>
+  <section class="hero" id="home">
+    <div class="hero-copy">
+      <div class="eyebrow">
+        <span class="pulse-dot"></span>
+        VOTRE SANTÉ, NOTRE PRIORITÉ
+      </div>
+
+      <h1>
+        Retrouvez votre mobilité,
+        <span>retrouvez votre liberté.</span>
+      </h1>
+
+      <p class="hero-description">
+        Trouvez le kinésithérapeute qui vous correspond.
+        Comparez les spécialités et contactez des professionnels
+        près de chez vous, simplement.
+      </p>
+
+      <div class="hero-actions">
+        <button class="btn btn-primary btn-large"
+          (click)="selectTab('patients')">
+          Trouver un kiné <span>→</span>
+        </button>
+        <button class="btn btn-light btn-large"
+          (click)="openOrganizationForm()">
+          Je suis professionnel
+        </button>
+      </div>
+
+      <div class="trust-row">
+        <div class="trust-avatars">
+          <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=80&h=80&q=80" alt="">
+          <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=80&h=80&q=80" alt="">
+          <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=80&h=80&q=80" alt="">
+        </div>
+        <div>
+          <strong>Un accompagnement plus simple</strong>
+          <p>Patients et professionnels réunis</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <img class="hero-image"
+        src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1100&q=90"
+        alt="Professionnels de santé accompagnant un patient">
+
+      <div class="floating-card appointment-card">
+        <span class="floating-icon">✓</span>
+        <div>
+          <strong>Votre prochain rendez-vous</strong>
+          <p>Une demande en quelques clics</p>
+        </div>
+      </div>
+
+      <div class="floating-card care-card">
+        <span class="care-icon">♡</span>
+        <div>
+          <strong>Un suivi adapté</strong>
+          <p>À votre rythme</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="search-section" id="services">
+    <div class="section-heading">
+      <div>
+        <span class="eyebrow">COMMENT POUVONS-NOUS VOUS AIDER ?</span>
+        <h2>Que recherchez-vous aujourd'hui ?</h2>
+      </div>
+    </div>
+
+    <div class="mode-switch">
+      <button [class.active]="activeTab === 'patients'"
+        (click)="selectTab('patients')">
+        <span>⌕</span> Je cherche un kiné
+      </button>
+      <button [class.active]="activeTab === 'professionals'"
+        (click)="selectTab('professionals')">
+        <span>＋</span> Je suis professionnel
+      </button>
+    </div>
+
+    @if (activeTab === 'patients') {
+      <div class="search-panel">
+        <label class="search-field">
+          <span class="field-icon">⌕</span>
+          <span class="field-content">
+            <span class="field-label">Spécialité ou mot-clé</span>
+            <input [(ngModel)]="searchText"
+              placeholder="Ex. : douleurs du dos, sport">
+          </span>
+        </label>
+
+        <label class="search-field">
+          <span class="field-icon">⌖</span>
+          <span class="field-content">
+            <span class="field-label">Ville</span>
+            <select [(ngModel)]="selectedCity">
+              <option value="">Toutes les villes</option>
+              @for (city of cities; track city) {
+                <option [value]="city">{{ city }}</option>
+              }
+            </select>
+          </span>
+        </label>
+
+        <label class="search-field">
+          <span class="field-icon">✚</span>
+          <span class="field-content">
+            <span class="field-label">Spécialité</span>
+            <select [(ngModel)]="selectedSpecialty">
+              <option value="">Toutes les spécialités</option>
+              @for (specialty of specialties; track specialty) {
+                <option [value]="specialty">{{ specialty }}</option>
+              }
+            </select>
+          </span>
+        </label>
+
+        <button class="btn btn-primary search-button"
+          (click)="searchKines()">
+          Rechercher <span>→</span>
+        </button>
+      </div>
+    } @else {
+      <div class="professional-panel">
+        <div>
+          <span class="eyebrow">DÉVELOPPEZ VOTRE ACTIVITÉ</span>
+          <h3>Votre expertise mérite d'être visible.</h3>
+          <p>
+            Présentez votre cabinet, vos spécialités et vos services
+            aux patients qui recherchent un accompagnement.
+          </p>
+        </div>
+        <button class="btn btn-primary btn-large"
+          (click)="openOrganizationForm()">
+          Créer mon profil <span>→</span>
+        </button>
+      </div>
+    }
+  </section>
+
+  <section class="results-section" id="results">
+    <div class="section-heading results-heading">
+      <div>
+        <span class="eyebrow">DES PROFESSIONNELS À VOTRE ÉCOUTE</span>
+        <h2>Découvrez nos kinésithérapeutes</h2>
+        <p class="section-description">
+          Explorez les profils et trouvez le professionnel adapté à vos besoins.
+        </p>
+      </div>
+      <span class="result-count">
+        {{ filteredKines.length }} résultat(s)
+      </span>
+    </div>
+
+    <div class="kine-grid">
+      @for (kine of filteredKines; track kine.id) {
+        <article class="kine-card">
+          <div class="kine-image-wrap">
+            <img [src]="kine.image" [alt]="kine.name" class="kine-image">
+            <span class="availability"
+              [class.unavailable]="!kine.available">
+              <span></span>
+              {{ kine.available ? 'Disponible' : 'Indisponible' }}
+            </span>
+          </div>
+
+          <div class="kine-body">
+            <div class="rating">
+              <span>★</span> {{ kine.rating }}
+              <span class="review-count">({{ kine.reviews }} avis)</span>
+            </div>
+
+            <h3>{{ kine.name }}</h3>
+            <p class="kine-specialty">{{ kine.specialty }}</p>
+
+            <p class="kine-location">
+              <span>⌖</span> {{ kine.address }}
+            </p>
+
+            <div class="tag-list">
+              @for (tag of kine.tags; track tag) {
+                <span class="tag">{{ tag }}</span>
+              }
+            </div>
+
+            <div class="kine-footer">
+              <div class="price">
+                <strong>{{ kine.price }} DH</strong>
+                <span>/ séance</span>
+              </div>
+              <button class="btn btn-primary"
+                [disabled]="!kine.available"
+                (click)="openAppointment(kine)">
+                Demander un RDV
+              </button>
+            </div>
+          </div>
+        </article>
+      } @empty {
+        <div class="empty-state">
+          <span>⌕</span>
+          <h3>Aucun professionnel trouvé</h3>
+          <p>Essayez une autre ville ou une autre spécialité.</p>
+          <button class="btn btn-outline"
+            (click)="searchText = ''; selectedCity = ''; selectedSpecialty = ''">
+            Effacer les filtres
+          </button>
+        </div>
+      }
+    </div>
+
+    <p class="demo-notice">
+      Les profils affichés sont des exemples de démonstration.
+      Les informations, tarifs et disponibilités doivent être vérifiés
+      avant la mise en production.
+    </p>
+  </section>
+
+  <section class="how-section" id="how-it-works">
+    <div class="section-heading centered">
+      <span class="eyebrow">SIMPLE, RAPIDE ET PRATIQUE</span>
+      <h2>Votre parcours santé, en 3 étapes</h2>
+      <p class="section-description">
+        Kéni simplifie la recherche d'un professionnel de la kinésithérapie.
+      </p>
+    </div>
+
+    <div class="steps-grid">
+      <article class="step-card">
+        <span class="step-number">01</span>
+        <div class="step-icon">⌕</div>
+        <h3>Recherchez</h3>
+        <p>Choisissez votre ville et la spécialité qui correspond à vos besoins.</p>
+      </article>
+
+      <article class="step-card">
+        <span class="step-number">02</span>
+        <div class="step-icon">♧</div>
+        <h3>Comparez</h3>
+        <p>Consultez les profils, les services proposés et les informations disponibles.</p>
+      </article>
+
+      <article class="step-card">
+        <span class="step-number">03</span>
+        <div class="step-icon">✓</div>
+        <h3>Contactez</h3>
+        <p>Envoyez une demande au professionnel et organisez votre rendez-vous.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="organization-section" id="organization-form">
+    <div class="organization-copy">
+      <span class="eyebrow">ESPACE PROFESSIONNEL</span>
+      <h2>Faites connaître votre cabinet avec Kéni.</h2>
+      <p>
+        Vous êtes kinésithérapeute, responsable de cabinet ou d'un centre
+        de rééducation ? Créez votre profil pour présenter votre activité
+        et faciliter la prise de contact avec les patients.
+      </p>
+      <ul>
+        <li>✓ Présentez vos spécialités et vos services</li>
+        <li>✓ Ajoutez les coordonnées de votre établissement</li>
+        <li>✓ Centralisez les demandes des patients</li>
+      </ul>
+      <button class="btn btn-light btn-large"
+        (click)="openOrganizationForm()">
+        Créer mon profil professionnel <span>→</span>
+      </button>
+    </div>
+
+    <div class="organization-art">
+      <img
+        src="https://images.unsplash.com/photo-1573497620053-ea5300f94f21?auto=format&fit=crop&w=850&q=85"
+        alt="Professionnels échangeant dans un environnement de travail">
+      <div class="art-label">
+        <span>♡</span>
+        <div>
+          <strong>Ensemble, prenons soin de demain.</strong>
+          <p>Un réseau au service des patients.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  @if (showOrganizationForm) {
+    <section class="form-section">
+      <div class="form-card">
+        <div class="form-heading">
+          <div>
+            <span class="eyebrow">INSCRIPTION PROFESSIONNELLE</span>
+            <h2>Créer votre profil</h2>
+            <p>Renseignez les premières informations de votre établissement.</p>
+          </div>
+          <button class="close-button" type="button"
+            (click)="showOrganizationForm = false" aria-label="Fermer">
+            ×
+          </button>
+        </div>
+
+        <form #orgForm="ngForm" (ngSubmit)="submitOrganization()">
+          <label>
+            Nom du cabinet ou de l'organisation *
+            <input name="orgName" [(ngModel)]="organization.name"
+              required placeholder="Ex. : Centre de rééducation">
+          </label>
+
+          <label>
+            Type d'établissement *
+            <select name="orgType" [(ngModel)]="organization.type" required>
+              <option>Cabinet de kinésithérapie</option>
+              <option>Centre de rééducation</option>
+              <option>Clinique</option>
+              <option>Organisation de santé</option>
+            </select>
+          </label>
+
+          <label>
+            Adresse e-mail *
+            <input name="orgEmail" type="email"
+              [(ngModel)]="organization.email" required email
+              placeholder="contact@exemple.ma">
+          </label>
+
+          <label>
+            Téléphone *
+            <input name="orgPhone" [(ngModel)]="organization.phone"
+              required placeholder="Votre numéro de téléphone">
+          </label>
+
+          <label>
+            Ville *
+            <input name="orgCity" [(ngModel)]="organization.city"
+              required placeholder="Ex. : Casablanca">
+          </label>
+
+          <button class="btn btn-primary btn-large form-submit"
+            type="submit" [disabled]="orgForm.invalid">
+            Envoyer mes informations
+          </button>
+        </form>
+      </div>
+    </section>
+  }
+
+  @if (showAppointmentForm && selectedKine) {
+    <div class="modal-backdrop" (click)="closeAppointment()">
+      <section class="modal-card" role="dialog" aria-modal="true"
+        aria-labelledby="appointment-title" (click)="$event.stopPropagation()">
+        <button class="close-button modal-close" type="button"
+          (click)="closeAppointment()" aria-label="Fermer">×</button>
+
+        <span class="eyebrow">DEMANDE DE RENDEZ-VOUS</span>
+        <h2 id="appointment-title">Contacter {{ selectedKine.name }}</h2>
+        <p class="section-description">
+          {{ selectedKine.specialty }} · {{ selectedKine.city }}
+        </p>
+
+        <form #rdvForm="ngForm" (ngSubmit)="submitAppointment()">
+          <label>
+            Votre nom complet *
+            <input name="patientName" [(ngModel)]="appointment.patientName"
+              required placeholder="Nom et prénom">
+          </label>
+
+          <label>
+            Téléphone *
+            <input name="patientPhone" [(ngModel)]="appointment.phone"
+              required placeholder="Votre numéro de téléphone">
+          </label>
+
+          <label>
+            Date souhaitée *
+            <input name="appointmentDate" type="date"
+              [(ngModel)]="appointment.date" [min]="''"
+              required>
+          </label>
+
+          <label>
+            Message (facultatif)
+            <textarea name="appointmentMessage"
+              [(ngModel)]="appointment.message"
+              rows="3" placeholder="Précisez votre demande"></textarea>
+          </label>
+
+          <button class="btn btn-primary btn-large form-submit"
+            type="submit" [disabled]="rdvForm.invalid">
+            Préparer ma demande
+          </button>
+          <p class="form-note">
+            La demande est actuellement simulée dans le frontend.
+            Aucun rendez-vous n'est confirmé.
+          </p>
+        </form>
+      </section>
+    </div>
+  }
+
+  @if (successMessage) {
+    <div class="toast-message" role="status">
+      <span>✓</span>
+      {{ successMessage }}
+      <button type="button" (click)="successMessage = ''"
+        aria-label="Fermer">×</button>
+    </div>
+  }
+</main>
+
+<footer class="footer">
+  <a class="brand footer-brand" href="#home">
+    <span class="brand-icon">K</span>
+    <span>Kéni<span class="brand-dot">.</span></span>
+  </a>
+  <p>Faciliter l'accès aux soins, rapprocher les professionnels.</p>
+  <span>© 2026 Kéni · Projet de démonstration</span>
+</footer>
